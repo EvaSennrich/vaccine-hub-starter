@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
-// const app = require("../app");
-// const store = require("../model/store");
+const User = require("../models/user");
 // const { NotFoundError, BadRequestError } = require("../utils/errors");
 
 router.post("/login", async (req, res, next) => {
