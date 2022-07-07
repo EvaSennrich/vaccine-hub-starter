@@ -44,21 +44,20 @@ class User {
 
     // create a new user in teh db with all their info
     const result = await db.query(
-      `
-      INSERT INTO users {
+      `INSERT INTO users (
         email, 
         password, 
         first_name,
         last_name,
         location
-      }
+      )
       VALUES ($1, $2, $3, $4, $5)
-      RETURNING id, email, first_name, last_name, location, date
+      RETURNING id, email, first_name, last_name, location, date;
     `,
-      [lowercasedEmail, credentials.first_name, credentials.last_name, credentials.location]
+      [lowercasedEmail, hashedPassword, credentials.first_name, credentials.last_name, credentials.location]
     );
     // return the user
-    const user = result.row[0];
+    const user = result.rows[0];
     return user;
   }
 
