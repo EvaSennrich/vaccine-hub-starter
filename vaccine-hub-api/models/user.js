@@ -41,7 +41,7 @@ class User {
   static async register(credentials) {
     // user should submit their email, pw, resvp status, and # of guests
     // if any of these fields are missing, throw an error
-    const requiredFields = ["email", "password", "first_name", "last_name", "location"];
+    const requiredFields = ["email", "password", "first_name", "last_name", "location", "date"];
     requiredFields.forEach((field) => {
       if (!credentials.hasOwnProperty(field)) {
         throw new BadRequestError(`Missing ${field} in request body.`);
@@ -70,12 +70,13 @@ class User {
         password, 
         first_name,
         last_name,
-        location
+        location,
+        date
       )
-      VALUES ($1, $2, $3, $4, $5)
+      VALUES ($1, $2, $3, $4, $5, $6)
       RETURNING id, email, first_name, last_name, location, date;
     `,
-      [lowercasedEmail, hashedPassword, credentials.first_name, credentials.last_name, credentials.location]
+      [lowercasedEmail, hashedPassword, credentials.first_name, credentials.last_name, credentials.location, credentials.date]
     );
     // return the user
     const user = result.rows[0];
